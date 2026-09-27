@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Bandcamp Plus",
+  "version": "0.2.0",
+  "description": "Small augmentations for Bandcamp: a seekable feed player, per-track wishlist hearts, and YouTube-style keyboard shortcuts.",
+  "content_scripts": [
+    {
+      "matches": ["https://bandcamp.com/*/feed*"],
+      "js": ["src/media.js", "src/seek.js"],
+      "css": ["src/seek.css"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://*.bandcamp.com/album/*"],
+      "js": ["src/track-wishlist.js"],
+      "css": ["src/track-wishlist.css"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://*.bandcamp.com/*"],
+      "js": ["src/keys.js"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    }
+  ]
+}

@@ -1,0 +1,218 @@
+/* Mirrors Bandcamp's own bottom player (.carousel-player in
+   trackpipe/public/css/hubs/carousel_player.css), namespaced so it can't
+   collide with anything on the page. */
+
+#bcplus-player {
+  position: fixed;
+  left: 0;
+  bottom: -100px;
+  width: 100%;
+  transition: bottom 0.2s, opacity 0.2s;
+  z-index: 111;
+  opacity: 0;
+  color: #505958;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: normal;
+  background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+#bcplus-player.show {
+  bottom: 0;
+  opacity: 1;
+}
+/* Leave room so the bar never covers the end of the feed. */
+html.bcplus-player-open body {
+  padding-bottom: 80px;
+}
+
+/* Background spans the window; contents line up with the feed's centred
+   975px column (#centerWrapper) so nothing is pinned to the far left on
+   wide screens. */
+#bcplus-player .bcplus-inner {
+  display: flex;
+  height: 79px;
+  width: min(975px, calc(100% - 12px));
+  margin: 0 auto;
+  padding: 6px 0;
+  box-sizing: border-box;
+}
+
+/* left: now playing */
+#bcplus-player .bcplus-now-playing {
+  flex: 0 0 calc(100% * 4 / 15);
+  min-width: 0;
+  display: flex;
+  cursor: pointer;
+}
+#bcplus-player .bcplus-art {
+  flex: none;
+  width: 60px;
+  height: 60px;
+  margin: 4px 0 4px 4px;
+}
+#bcplus-player .bcplus-art[hidden] {
+  display: none;
+}
+#bcplus-player .bcplus-np-info {
+  min-width: 0;
+  margin: 8px 0 0 8px;
+  line-height: 18px;
+}
+#bcplus-player .bcplus-np-title {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#bcplus-player .bcplus-now-playing:hover .bcplus-np-title {
+  text-decoration: underline;
+}
+#bcplus-player .bcplus-np-artist {
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* middle: play/pause + title + progress */
+#bcplus-player .bcplus-progress-transport {
+  flex: 0 0 calc(100% * 7 / 15);
+  min-width: 0;
+  display: flex;
+  margin-top: 10px;
+}
+#bcplus-player .bcplus-controls-extra {
+  flex: 0 0 calc(100% * 4 / 15);
+}
+
+#bcplus-player .bcplus-playpause {
+  flex: none;
+  cursor: pointer;
+  border: 1px solid #d9d9d9;
+  padding: 11px;
+  margin-right: 14px;
+  height: 18px;
+  width: 17px;
+  position: relative;
+  box-sizing: content-box;
+}
+#bcplus-player .bcplus-play {
+  width: 0;
+  height: 0;
+  border-top: 9px inset transparent;
+  border-bottom: 9px inset transparent;
+  border-left: 15px solid rgb(34, 34, 34);
+  margin-left: 2px;
+}
+#bcplus-player .bcplus-pause {
+  display: none;
+  border-left: 5px solid #2d2d2d;
+  border-right: 5px solid #2d2d2d;
+  height: 18px;
+  width: 4px;
+  margin-left: 1px;
+}
+#bcplus-player .bcplus-busy {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 1px;
+  width: 37px;
+  height: 33px;
+  margin: 4px auto;
+  background: url(/img/playerbusy-noborder.gif) 50% 50% / contain no-repeat;
+}
+#bcplus-player .bcplus-playpause.is-playing .bcplus-play,
+#bcplus-player .bcplus-playpause.is-busy .bcplus-play {
+  display: none;
+}
+#bcplus-player .bcplus-playpause.is-playing .bcplus-pause,
+#bcplus-player .bcplus-playpause.is-busy .bcplus-busy {
+  display: block;
+}
+
+#bcplus-player .bcplus-info-progress {
+  flex-grow: 1;
+  min-width: 0;
+  margin: 6px 10px 0 0;
+}
+#bcplus-player .bcplus-info {
+  display: flex;
+}
+#bcplus-player .bcplus-title {
+  flex-grow: 1;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 10px;
+}
+#bcplus-player .bcplus-pos-dur {
+  flex: none;
+  margin-top: 1px;
+  font-variant-numeric: tabular-nums;
+}
+
+#bcplus-player .bcplus-progress-bar {
+  height: 15px;
+  width: 100%;
+  position: relative;
+  background: #fff;
+  margin-top: 4px;
+  cursor: pointer;
+  touch-action: none;
+}
+#bcplus-player .bcplus-progress-bar:focus {
+  outline: none;
+}
+#bcplus-player .bcplus-progress,
+#bcplus-player .bcplus-buffer,
+#bcplus-player .bcplus-progress-bg {
+  width: 0%;
+  position: absolute;
+  height: 6px;
+  margin-top: 4px;
+}
+#bcplus-player .bcplus-progress-bg {
+  background: rgba(50, 50, 50, 0.1);
+  width: 100%;
+}
+#bcplus-player .bcplus-progress {
+  background: rgba(50, 50, 50, 1);
+  z-index: 2;
+}
+#bcplus-player .bcplus-buffer {
+  background: rgba(50, 50, 50, 0.4);
+  z-index: 1;
+}
+#bcplus-player .bcplus-seek-control-outer {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+#bcplus-player .bcplus-seek-control {
+  display: none;
+  position: absolute;
+  bottom: 1px;
+  width: 13px;
+  height: 13px;
+  margin-left: -6px;
+  background: #333;
+  border-radius: 50%;
+  z-index: 3;
+}
+#bcplus-player .bcplus-info-progress:hover .bcplus-seek-control,
+#bcplus-player .bcplus-progress-bar.seeking .bcplus-seek-control,
+#bcplus-player .bcplus-progress-bar:focus-visible .bcplus-seek-control {
+  display: block;
+}
+
+@media (max-width: 700px) {
+  #bcplus-player .bcplus-now-playing { flex-basis: 64px; }
+  #bcplus-player .bcplus-np-info { display: none; }
+  #bcplus-player .bcplus-progress-transport { flex: 1; }
+  #bcplus-player .bcplus-controls-extra { display: none; }
+}
