@@ -3,8 +3,8 @@
 // Runs in the page's MAIN world to use Bandcamp's own FanControls.doPost
 // (which handles CSRF crumbs) and TralbumData.
 (() => {
-  if (window.__bcPlusTrackWishlist) return;
-  window.__bcPlusTrackWishlist = true;
+  if (window.__fixBcTrackWishlist) return;
+  window.__fixBcTrackWishlist = true;
 
   const STATUS_CONCURRENCY = 3;
 
@@ -29,7 +29,7 @@
     for (const row of document.querySelectorAll("#track_table tr.track_row_view")) {
       const href = row.querySelector(".title-col a[href]")?.getAttribute("href");
       const track = href && byLink.get(href);
-      if (!track || row.querySelector(".bcplus-wl")) continue;
+      if (!track || row.querySelector(".fixbc-wl")) continue;
       const btn = makeButton(track, fanId, bandId);
       // Live inside .dl_link so Bandcamp's own hover rule reveals it.
       let cell = row.querySelector(".download-col");
@@ -44,10 +44,10 @@
         dl.className = "dl_link";
         cell.appendChild(dl);
       }
-      dl.classList.add("bcplus-dl");
+      dl.classList.add("fixbc-dl");
       if (dl.querySelector("a")) {
         const sep = document.createElement("span");
-        sep.className = "bcplus-wl-sep";
+        sep.className = "fixbc-wl-sep";
         sep.textContent = "·";
         dl.appendChild(sep);
       }
@@ -64,14 +64,14 @@
 
   function makeButton(track, fanId, bandId) {
     const btn = document.createElement("a");
-    btn.className = "bcplus-wl";
+    btn.className = "fixbc-wl";
     btn.href = "#";
     btn.setAttribute("role", "button");
     // Hearts come from Bandcamp's own SVG sprite already on the page.
     btn.innerHTML = `
-      <svg class="bcplus-wl-icon" viewBox="0 0 21 20" aria-hidden="true">
-        <use class="bcplus-wl-off" href="#collect-control-wishlist"></use>
-        <use class="bcplus-wl-on" href="#collect-control-wishlisted"></use>
+      <svg class="fixbc-wl-icon" viewBox="0 0 21 20" aria-hidden="true">
+        <use class="fixbc-wl-off" href="#collect-control-wishlist"></use>
+        <use class="fixbc-wl-on" href="#collect-control-wishlisted"></use>
       </svg>`;
     setState(btn, { wishlisted: false });
 
@@ -98,7 +98,7 @@
       btn.dataset.state = "owned";
       btn.hidden = true;
       const sep = btn.previousElementSibling;
-      if (sep?.classList.contains("bcplus-wl-sep")) sep.hidden = true;
+      if (sep?.classList.contains("fixbc-wl-sep")) sep.hidden = true;
       return;
     }
     btn.dataset.state = wishlisted ? "on" : "off";

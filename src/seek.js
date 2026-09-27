@@ -3,8 +3,8 @@
 // Runs in the page's MAIN world at document_start; media.js (loaded first)
 // tracks which <audio> element is playing.
 (() => {
-  if (window.__bcPlusSeek || !window.__bcPlus) return;
-  window.__bcPlusSeek = true;
+  if (window.__fixBcSeek || !window.__fixBc) return;
+  window.__fixBcSeek = true;
 
   const KEY_STEP = 5; // seconds per arrow-key press on the progress bar
 
@@ -14,7 +14,7 @@
 
   const MEDIA_EVENTS = ["timeupdate", "durationchange", "loadedmetadata", "progress", "play", "pause", "emptied", "seeked", "waiting", "playing"];
 
-  window.__bcPlus.onChange((el) => {
+  window.__fixBc.onChange((el) => {
     if (media) {
       for (const ev of MEDIA_EVENTS) media.removeEventListener(ev, render);
     }
@@ -35,54 +35,54 @@
 
   function build() {
     const root = document.createElement("div");
-    root.id = "bcplus-player";
+    root.id = "fixbc-player";
     root.innerHTML = `
-      <div class="bcplus-inner">
-        <div class="bcplus-now-playing">
-          <img class="bcplus-art" alt="">
-          <div class="bcplus-np-info">
-            <div class="bcplus-np-title"></div>
-            <div class="bcplus-np-artist"></div>
+      <div class="fixbc-inner">
+        <div class="fixbc-now-playing">
+          <img class="fixbc-art" alt="">
+          <div class="fixbc-np-info">
+            <div class="fixbc-np-title"></div>
+            <div class="fixbc-np-artist"></div>
           </div>
         </div>
-        <div class="bcplus-progress-transport">
-          <div class="bcplus-playpause" role="button" tabindex="0" aria-label="Play/pause">
-            <div class="bcplus-play"></div>
-            <div class="bcplus-pause"></div>
-            <div class="bcplus-busy"></div>
+        <div class="fixbc-progress-transport">
+          <div class="fixbc-playpause" role="button" tabindex="0" aria-label="Play/pause">
+            <div class="fixbc-play"></div>
+            <div class="fixbc-pause"></div>
+            <div class="fixbc-busy"></div>
           </div>
-          <div class="bcplus-info-progress">
-            <div class="bcplus-info">
-              <div class="bcplus-title"></div>
-              <div class="bcplus-pos-dur"><span class="bcplus-pos">00:00</span> / <span class="bcplus-dur">00:00</span></div>
+          <div class="fixbc-info-progress">
+            <div class="fixbc-info">
+              <div class="fixbc-title"></div>
+              <div class="fixbc-pos-dur"><span class="fixbc-pos">00:00</span> / <span class="fixbc-dur">00:00</span></div>
             </div>
-            <div class="bcplus-progress-bar" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0">
-              <div class="bcplus-progress"></div>
-              <div class="bcplus-buffer"></div>
-              <div class="bcplus-progress-bg"></div>
-              <div class="bcplus-seek-control-outer"><div class="bcplus-seek-control"></div></div>
+            <div class="fixbc-progress-bar" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0">
+              <div class="fixbc-progress"></div>
+              <div class="fixbc-buffer"></div>
+              <div class="fixbc-progress-bg"></div>
+              <div class="fixbc-seek-control-outer"><div class="fixbc-seek-control"></div></div>
             </div>
           </div>
         </div>
-        <div class="bcplus-controls-extra"></div>
+        <div class="fixbc-controls-extra"></div>
       </div>`;
     document.body.appendChild(root);
 
     const $ = (sel) => root.querySelector(sel);
     ui = {
       root,
-      art: $(".bcplus-art"),
-      npTitle: $(".bcplus-np-title"),
-      npArtist: $(".bcplus-np-artist"),
-      nowPlaying: $(".bcplus-now-playing"),
-      playpause: $(".bcplus-playpause"),
-      title: $(".bcplus-title"),
-      pos: $(".bcplus-pos"),
-      dur: $(".bcplus-dur"),
-      bar: $(".bcplus-progress-bar"),
-      progress: $(".bcplus-progress"),
-      buffer: $(".bcplus-buffer"),
-      knob: $(".bcplus-seek-control"),
+      art: $(".fixbc-art"),
+      npTitle: $(".fixbc-np-title"),
+      npArtist: $(".fixbc-np-artist"),
+      nowPlaying: $(".fixbc-now-playing"),
+      playpause: $(".fixbc-playpause"),
+      title: $(".fixbc-title"),
+      pos: $(".fixbc-pos"),
+      dur: $(".fixbc-dur"),
+      bar: $(".fixbc-progress-bar"),
+      progress: $(".fixbc-progress"),
+      buffer: $(".fixbc-buffer"),
+      knob: $(".fixbc-seek-control"),
     };
 
     // Go through Bandcamp's own control for the item so its player state
@@ -194,7 +194,7 @@
     if (!ui) return;
     const show = !!(media && media.currentSrc && canSeek());
     ui.root.classList.toggle("show", show);
-    document.documentElement.classList.toggle("bcplus-player-open", show);
+    document.documentElement.classList.toggle("fixbc-player-open", show);
     if (!show) return;
 
     const busy = !media.paused && media.readyState < 3;

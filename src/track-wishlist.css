@@ -1,39 +1,39 @@
 /* Per-track wishlist heart in album tracklists. Sits inside Bandcamp's
    .dl_link (83px, right-aligned), which is hidden until the row is hovered. */
 
-.track_list .dl_link.bcplus-dl {
+.track_list .dl_link.fixbc-dl {
   white-space: nowrap;
 }
 
-.bcplus-wl-sep {
+.fixbc-wl-sep {
   margin: 0 3px;
   opacity: 0.6;
 }
 
-a.bcplus-wl {
+a.fixbc-wl {
   display: inline-block;
   vertical-align: -1px;
   line-height: 0;
   cursor: pointer;
 }
-a.bcplus-wl[hidden] {
+a.fixbc-wl[hidden] {
   display: none;
 }
 
-.bcplus-wl-icon {
+.fixbc-wl-icon {
   width: 12px;
   height: 12px;
   fill: currentColor;
 }
-.bcplus-wl .bcplus-wl-on,
-.bcplus-wl[data-state="on"] .bcplus-wl-off {
+.fixbc-wl .fixbc-wl-on,
+.fixbc-wl[data-state="on"] .fixbc-wl-off {
   display: none;
 }
-.bcplus-wl[data-state="on"] .bcplus-wl-on {
+.fixbc-wl[data-state="on"] .fixbc-wl-on {
   display: inline;
 }
 
 /* Already-wishlisted tracks keep their filled heart visible without hover. */
-tr.track_row_view .bcplus-wl[data-state="on"] {
+tr.track_row_view .fixbc-wl[data-state="on"] {
   visibility: visible;
 }

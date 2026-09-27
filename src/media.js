@@ -1,8 +1,8 @@
 // Tracks whichever media element the page is playing, attached to the DOM
-// or not, and exposes it as window.__bcPlus.media for the other scripts.
+// or not, and exposes it as window.__fixBc.media for the other scripts.
 // Runs in the page's MAIN world at document_start, before Bandcamp's code.
 (() => {
-  if (window.__bcPlus) return;
+  if (window.__fixBc) return;
 
   const listeners = new Set();
   const api = {
@@ -13,7 +13,7 @@
       if (api.media) fn(api.media);
     },
   };
-  window.__bcPlus = api;
+  window.__fixBc = api;
 
   function adopt(el) {
     if (!(el instanceof HTMLMediaElement) || el === api.media) return;

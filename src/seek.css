@@ -2,7 +2,7 @@
    trackpipe/public/css/hubs/carousel_player.css), namespaced so it can't
    collide with anything on the page. */
 
-#bcplus-player {
+#fixbc-player {
   position: fixed;
   left: 0;
   bottom: -100px;
@@ -17,19 +17,19 @@
   background: #fff;
   border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
-#bcplus-player.show {
+#fixbc-player.show {
   bottom: 0;
   opacity: 1;
 }
 /* Leave room so the bar never covers the end of the feed. */
-html.bcplus-player-open body {
+html.fixbc-player-open body {
   padding-bottom: 80px;
 }
 
 /* Background spans the window; contents line up with the feed's centred
    975px column (#centerWrapper) so nothing is pinned to the far left on
    wide screens. */
-#bcplus-player .bcplus-inner {
+#fixbc-player .fixbc-inner {
   display: flex;
   height: 79px;
   width: min(975px, calc(100% - 12px));
@@ -39,27 +39,27 @@ html.bcplus-player-open body {
 }
 
 /* left: now playing */
-#bcplus-player .bcplus-now-playing {
+#fixbc-player .fixbc-now-playing {
   flex: 0 0 calc(100% * 4 / 15);
   min-width: 0;
   display: flex;
   cursor: pointer;
 }
-#bcplus-player .bcplus-art {
+#fixbc-player .fixbc-art {
   flex: none;
   width: 60px;
   height: 60px;
   margin: 4px 0 4px 4px;
 }
-#bcplus-player .bcplus-art[hidden] {
+#fixbc-player .fixbc-art[hidden] {
   display: none;
 }
-#bcplus-player .bcplus-np-info {
+#fixbc-player .fixbc-np-info {
   min-width: 0;
   margin: 8px 0 0 8px;
   line-height: 18px;
 }
-#bcplus-player .bcplus-np-title {
+#fixbc-player .fixbc-np-title {
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
@@ -67,10 +67,10 @@ html.bcplus-player-open body {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-#bcplus-player .bcplus-now-playing:hover .bcplus-np-title {
+#fixbc-player .fixbc-now-playing:hover .fixbc-np-title {
   text-decoration: underline;
 }
-#bcplus-player .bcplus-np-artist {
+#fixbc-player .fixbc-np-artist {
   font-size: 12px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -78,17 +78,17 @@ html.bcplus-player-open body {
 }
 
 /* middle: play/pause + title + progress */
-#bcplus-player .bcplus-progress-transport {
+#fixbc-player .fixbc-progress-transport {
   flex: 0 0 calc(100% * 7 / 15);
   min-width: 0;
   display: flex;
   margin-top: 10px;
 }
-#bcplus-player .bcplus-controls-extra {
+#fixbc-player .fixbc-controls-extra {
   flex: 0 0 calc(100% * 4 / 15);
 }
 
-#bcplus-player .bcplus-playpause {
+#fixbc-player .fixbc-playpause {
   flex: none;
   cursor: pointer;
   border: 1px solid #d9d9d9;
@@ -99,7 +99,7 @@ html.bcplus-player-open body {
   position: relative;
   box-sizing: content-box;
 }
-#bcplus-player .bcplus-play {
+#fixbc-player .fixbc-play {
   width: 0;
   height: 0;
   border-top: 9px inset transparent;
@@ -107,7 +107,7 @@ html.bcplus-player-open body {
   border-left: 15px solid rgb(34, 34, 34);
   margin-left: 2px;
 }
-#bcplus-player .bcplus-pause {
+#fixbc-player .fixbc-pause {
   display: none;
   border-left: 5px solid #2d2d2d;
   border-right: 5px solid #2d2d2d;
@@ -115,7 +115,7 @@ html.bcplus-player-open body {
   width: 4px;
   margin-left: 1px;
 }
-#bcplus-player .bcplus-busy {
+#fixbc-player .fixbc-busy {
   display: none;
   position: absolute;
   top: 0;
@@ -125,24 +125,24 @@ html.bcplus-player-open body {
   margin: 4px auto;
   background: url(/img/playerbusy-noborder.gif) 50% 50% / contain no-repeat;
 }
-#bcplus-player .bcplus-playpause.is-playing .bcplus-play,
-#bcplus-player .bcplus-playpause.is-busy .bcplus-play {
+#fixbc-player .fixbc-playpause.is-playing .fixbc-play,
+#fixbc-player .fixbc-playpause.is-busy .fixbc-play {
   display: none;
 }
-#bcplus-player .bcplus-playpause.is-playing .bcplus-pause,
-#bcplus-player .bcplus-playpause.is-busy .bcplus-busy {
+#fixbc-player .fixbc-playpause.is-playing .fixbc-pause,
+#fixbc-player .fixbc-playpause.is-busy .fixbc-busy {
   display: block;
 }
 
-#bcplus-player .bcplus-info-progress {
+#fixbc-player .fixbc-info-progress {
   flex-grow: 1;
   min-width: 0;
   margin: 6px 10px 0 0;
 }
-#bcplus-player .bcplus-info {
+#fixbc-player .fixbc-info {
   display: flex;
 }
-#bcplus-player .bcplus-title {
+#fixbc-player .fixbc-title {
   flex-grow: 1;
   font-weight: 500;
   overflow: hidden;
@@ -150,13 +150,13 @@ html.bcplus-player-open body {
   white-space: nowrap;
   margin-right: 10px;
 }
-#bcplus-player .bcplus-pos-dur {
+#fixbc-player .fixbc-pos-dur {
   flex: none;
   margin-top: 1px;
   font-variant-numeric: tabular-nums;
 }
 
-#bcplus-player .bcplus-progress-bar {
+#fixbc-player .fixbc-progress-bar {
   height: 15px;
   width: 100%;
   position: relative;
@@ -165,35 +165,35 @@ html.bcplus-player-open body {
   cursor: pointer;
   touch-action: none;
 }
-#bcplus-player .bcplus-progress-bar:focus {
+#fixbc-player .fixbc-progress-bar:focus {
   outline: none;
 }
-#bcplus-player .bcplus-progress,
-#bcplus-player .bcplus-buffer,
-#bcplus-player .bcplus-progress-bg {
+#fixbc-player .fixbc-progress,
+#fixbc-player .fixbc-buffer,
+#fixbc-player .fixbc-progress-bg {
   width: 0%;
   position: absolute;
   height: 6px;
   margin-top: 4px;
 }
-#bcplus-player .bcplus-progress-bg {
+#fixbc-player .fixbc-progress-bg {
   background: rgba(50, 50, 50, 0.1);
   width: 100%;
 }
-#bcplus-player .bcplus-progress {
+#fixbc-player .fixbc-progress {
   background: rgba(50, 50, 50, 1);
   z-index: 2;
 }
-#bcplus-player .bcplus-buffer {
+#fixbc-player .fixbc-buffer {
   background: rgba(50, 50, 50, 0.4);
   z-index: 1;
 }
-#bcplus-player .bcplus-seek-control-outer {
+#fixbc-player .fixbc-seek-control-outer {
   height: 100%;
   width: 100%;
   position: relative;
 }
-#bcplus-player .bcplus-seek-control {
+#fixbc-player .fixbc-seek-control {
   display: none;
   position: absolute;
   bottom: 1px;
@@ -204,15 +204,15 @@ html.bcplus-player-open body {
   border-radius: 50%;
   z-index: 3;
 }
-#bcplus-player .bcplus-info-progress:hover .bcplus-seek-control,
-#bcplus-player .bcplus-progress-bar.seeking .bcplus-seek-control,
-#bcplus-player .bcplus-progress-bar:focus-visible .bcplus-seek-control {
+#fixbc-player .fixbc-info-progress:hover .fixbc-seek-control,
+#fixbc-player .fixbc-progress-bar.seeking .fixbc-seek-control,
+#fixbc-player .fixbc-progress-bar:focus-visible .fixbc-seek-control {
   display: block;
 }
 
 @media (max-width: 700px) {
-  #bcplus-player .bcplus-now-playing { flex-basis: 64px; }
-  #bcplus-player .bcplus-np-info { display: none; }
-  #bcplus-player .bcplus-progress-transport { flex: 1; }
-  #bcplus-player .bcplus-controls-extra { display: none; }
+  #fixbc-player .fixbc-now-playing { flex-basis: 64px; }
+  #fixbc-player .fixbc-np-info { display: none; }
+  #fixbc-player .fixbc-progress-transport { flex: 1; }
+  #fixbc-player .fixbc-controls-extra { display: none; }
 }

@@ -7,8 +7,8 @@
 // feed, and seeking uses the <audio> element tracked by media.js.
 // Runs in the page's MAIN world.
 (() => {
-  if (window.__bcPlusKeys) return;
-  window.__bcPlusKeys = true;
+  if (window.__fixBcKeys) return;
+  window.__fixBcKeys = true;
 
   const isFeed = /^\/[^/]+\/feed\/?$/.test(location.pathname);
 
@@ -62,7 +62,7 @@
       releaseSeek(gp, frac);
       return true;
     }
-    const media = window.__bcPlus?.media;
+    const media = window.__fixBc?.media;
     if (isFeed && media && isFinite(media.duration) && media.duration > 0) {
       media.currentTime = frac * media.duration;
       return true;
