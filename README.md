@@ -27,6 +27,20 @@ A small Chromium extension (Arc, Chrome, etc.) that augments Bandcamp.
 3. **Load unpacked**, then select this folder.
 4. After editing files, press the reload icon on the extension card and refresh the Bandcamp tab.
 
+## Installing in Safari (untested)
+
+This hasn't been tried in Safari yet, but the rough route is:
+
+1. Install Xcode, then convert the extension into an Xcode project:
+   ```bash
+   xcrun safari-web-extension-converter /path/to/bandcamp-plus --macos-only --app-name "Bandcamp Plus"
+   ```
+2. In the generated project, build and run the macOS app once (Product ▸ Run). This registers the extension with Safari.
+3. In Safari, enable the Develop menu (Settings ▸ Advanced ▸ "Show features for web developers"), then Develop ▸ **Allow Unsigned Extensions**. Without a paid Apple Developer account, Safari turns this off every time it quits, so you'll need to re-enable it after each launch.
+4. Safari ▸ Settings ▸ Extensions: enable **Bandcamp Plus** and allow it on `bandcamp.com`.
+
+**Likely snag:** the scripts are declared with `"world": "MAIN"` so they can use Bandcamp's own page code. If Safari ignores that for manifest content scripts, the features will silently do nothing. The fix would be a small loader that runs in the default world and injects each script into the page with a `<script src="…">` tag, listing the files under `web_accessible_resources`. PRs welcome.
+
 ## Limitations
 
 - **Unofficial.** Not affiliated with Bandcamp. It relies on Bandcamp's internal page code (`gplaylist`, `FanControls`, `TralbumData`, CSS class names), so a Bandcamp site update can break parts of it without warning.
