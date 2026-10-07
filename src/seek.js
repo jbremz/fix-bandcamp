@@ -14,13 +14,20 @@
 
   const MEDIA_EVENTS = ["timeupdate", "durationchange", "loadedmetadata", "progress", "play", "pause", "emptied", "seeked", "waiting", "playing"];
 
+  // Media events also refresh prev/next, which tick() (every frame) skips;
+  // infinite scroll can add items after the current one at any time.
+  const onMediaEvent = () => {
+    render();
+    updateTransport();
+  };
+
   window.__fixBc.onChange((el) => {
     if (media) {
-      for (const ev of MEDIA_EVENTS) media.removeEventListener(ev, render);
+      for (const ev of MEDIA_EVENTS) media.removeEventListener(ev, onMediaEvent);
     }
     media = el;
-    for (const ev of MEDIA_EVENTS) media.addEventListener(ev, render);
-    render();
+    for (const ev of MEDIA_EVENTS) media.addEventListener(ev, onMediaEvent);
+    onMediaEvent();
   });
 
   // Same mm:ss format as Bandcamp's player.
@@ -63,6 +70,10 @@
               <div class="fixbc-seek-control-outer"><div class="fixbc-seek-control"></div></div>
             </div>
           </div>
+          <div class="fixbc-transport">
+            <div class="fixbc-icon fixbc-prev" role="button" tabindex="0" aria-label="Previous track"></div>
+            <div class="fixbc-icon fixbc-next" role="button" tabindex="0" aria-label="Next track"></div>
+          </div>
         </div>
         <div class="fixbc-controls-extra"></div>
       </div>`;
@@ -83,22 +94,32 @@
       progress: $(".fixbc-progress"),
       buffer: $(".fixbc-buffer"),
       knob: $(".fixbc-seek-control"),
+      prev: $(".fixbc-prev"),
+      next: $(".fixbc-next"),
     };
 
-    // Go through Bandcamp's own control for the item so its player state
-    // stays in charge; calling media.play() directly gets overridden.
-    const togglePlay = () => {
-      const trigger = lastItem?.isConnected && lastItem.querySelector(".track_play_auxiliary");
-      if (trigger) trigger.click();
-      else if (media) media.paused ? media.play() : media.pause();
+    // Buttons acting like Bandcamp's <div role=button> controls: click,
+    // or Enter/Space when focused.
+    const onActivate = (el, fn) => {
+      el.addEventListener("click", fn);
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          fn();
+        }
+      });
     };
-    ui.playpause.addEventListener("click", togglePlay);
-    ui.playpause.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        togglePlay();
-      }
-    });
+
+    // Go through Bandcamp's own control for the item (feed-nav.js) so its
+    // player state stays in charge; calling media.play() directly gets
+    // overridden.
+    onActivate(ui.playpause, () => window.__fixBc.feed?.playPause());
+    const skip = (dir) => {
+      window.__fixBc.feed?.skip(dir);
+      updateTransport();
+    };
+    onActivate(ui.prev, () => skip(-1));
+    onActivate(ui.next, () => skip(1));
 
     ui.nowPlaying.addEventListener("click", () => {
       playingItem()?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -216,6 +237,13 @@
     const b = media.buffered;
     const buffEnd = b.length ? b.end(b.length - 1) : 0;
     ui.buffer.style.width = `${(buffEnd / d) * 100}%`;
+  }
+
+  function updateTransport() {
+    const feed = window.__fixBc.feed;
+    if (!ui || !feed) return;
+    ui.prev.classList.toggle("disabled", !feed.hasNeighbour(-1));
+    ui.next.classList.toggle("disabled", !feed.hasNeighbour(1));
   }
 
   // timeupdate only fires ~4x/sec; smooth it out while playing.

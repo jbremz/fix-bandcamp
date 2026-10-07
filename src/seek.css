@@ -123,7 +123,7 @@ html.fixbc-player-open body {
   width: 37px;
   height: 33px;
   margin: 4px auto;
-  background: url(/img/playerbusy-noborder.gif) 50% 50% / contain no-repeat;
+  background: url(https://s4.bcbits.com/img/playerbusy-noborder.gif) 50% 50% / contain no-repeat;
 }
 #fixbc-player .fixbc-playpause.is-playing .fixbc-play,
 #fixbc-player .fixbc-playpause.is-busy .fixbc-play {
@@ -208,6 +208,33 @@ html.fixbc-player-open body {
 #fixbc-player .fixbc-progress-bar.seeking .fixbc-seek-control,
 #fixbc-player .fixbc-progress-bar:focus-visible .fixbc-seek-control {
   display: block;
+}
+
+/* prev/next: Bandcamp's own transport icons (nextprev.png sprite) */
+#fixbc-player .fixbc-transport {
+  flex: none;
+  display: flex;
+  gap: 6px;
+  margin-top: 28px;
+}
+#fixbc-player .fixbc-icon {
+  width: 20px;
+  height: 12px;
+  background: url(https://s4.bcbits.com/img/nextprev.png) 0 0 / 40px 12px no-repeat transparent;
+  cursor: pointer;
+  opacity: 0.5;
+}
+#fixbc-player .fixbc-icon.fixbc-next {
+  background-position: 100% 0;
+}
+#fixbc-player .fixbc-icon:hover,
+#fixbc-player .fixbc-icon:focus-visible {
+  opacity: 1;
+  outline: none;
+}
+#fixbc-player .fixbc-icon.disabled {
+  opacity: 0.1;
+  cursor: default;
 }
 
 @media (max-width: 700px) {

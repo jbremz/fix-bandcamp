@@ -6,7 +6,7 @@
   "content_scripts": [
     {
       "matches": ["https://bandcamp.com/*/feed*"],
-      "js": ["src/media.js", "src/seek.js"],
+      "js": ["src/media.js", "src/feed-nav.js", "src/seek.js"],
       "css": ["src/seek.css"],
       "run_at": "document_start",
       "world": "MAIN"

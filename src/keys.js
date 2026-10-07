@@ -3,8 +3,8 @@
 //   Shift+N / Shift+P  next / previous track
 //   0-9                jump to 0%-90% of the current track
 // On release pages (album/track) these drive Bandcamp's own player
-// (window.gplaylist). On the feed, "next" is the next playable item in the
-// feed, and seeking uses the <audio> element tracked by media.js.
+// (window.gplaylist). On the feed they use feed-nav.js and the <audio>
+// element tracked by media.js.
 // Runs in the page's MAIN world.
 (() => {
   if (window.__fixBcKeys) return;
@@ -44,7 +44,7 @@
       gp.playpause();
       return true;
     }
-    return isFeed && feedPlayPause();
+    return isFeed && !!window.__fixBc?.feed?.playPause();
   }
 
   function skip(dir) {
@@ -53,7 +53,7 @@
       dir > 0 ? gp.next_track() : gp.prev_track();
       return true;
     }
-    return isFeed && feedSkip(dir);
+    return isFeed && !!window.__fixBc?.feed?.skip(dir);
   }
 
   function seekTo(frac) {
@@ -87,52 +87,5 @@
         clearInterval(wait);
       }
     }, 100);
-  }
-
-  // ---- feed: no queue, so walk the playable items in page order ----
-
-  let lastFeedItem = null;
-  document.addEventListener(
-    "play",
-    () => setTimeout(() => (lastFeedItem = document.querySelector(".collection-item-container.playing") || lastFeedItem), 0),
-    true,
-  );
-
-  const trigger = (el) => (el.matches(".track_play_auxiliary") ? el : el.querySelector(".track_play_auxiliary"));
-
-  // Playable items in the same list as `el`: the main story feed, or a
-  // sidebar grid (e.g. "New Releases"), so skipping never jumps between them.
-  function feedList(el) {
-    const scope = el?.closest("#story-list") || el?.closest("ol, ul") || document.getElementById("story-list");
-    return scope ? [...scope.querySelectorAll(".collection-item-container")].filter(trigger) : [];
-  }
-
-  function feedCurrent() {
-    const current = document.querySelector(".collection-item-container.playing") || lastFeedItem;
-    return current?.isConnected ? current : null;
-  }
-
-  // Toggle via the item's own button (calling media.play() directly gets
-  // overridden by Bandcamp); with nothing played yet, start the first post.
-  function feedPlayPause() {
-    const current = feedCurrent();
-    if (current) {
-      trigger(current).click();
-      return true;
-    }
-    return feedSkip(1);
-  }
-
-  function feedSkip(dir) {
-    const current = feedCurrent();
-    const items = feedList(current);
-    if (!items.length) return false;
-    const i = current ? items.indexOf(current) : -1;
-    const next = i === -1 ? items[0] : items[i + dir];
-    if (!next) return true; // at the start/end: swallow the key, do nothing
-    trigger(next).click();
-    lastFeedItem = next;
-    next.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    return true;
   }
 })();
