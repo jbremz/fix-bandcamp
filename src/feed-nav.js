@@ -1,7 +1,8 @@
 // Feed navigation shared by the player bar (seek.js) and the keyboard
 // shortcuts (keys.js). The feed has no queue, so "next"/"previous" walk the
 // playable items in page order, staying within the current list (the main
-// story feed, or a sidebar grid like "New Releases").
+// story feed, or a sidebar grid like "New Releases"). When a track finishes,
+// the next item starts automatically.
 // Exposed as window.__fixBc.feed. Runs in the MAIN world after media.js.
 (() => {
   if (!window.__fixBc || window.__fixBc.feed) return;
@@ -40,13 +41,15 @@
     hasNeighbour: (dir) => !!neighbour(dir),
 
     // Plays the next/previous item. Returns false if the page has no feed.
-    skip(dir) {
+    // scroll: bring the new item into view (off for autoplay, so the page
+    // doesn't move under you while you're reading elsewhere).
+    skip(dir, { scroll = true } = {}) {
       if (!list(current()).length) return false;
       const next = neighbour(dir);
       if (!next) return true; // at the start/end: nothing to do
       trigger(next).click();
       lastItem = next;
-      next.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (scroll) next.scrollIntoView({ behavior: "smooth", block: "nearest" });
       return true;
     },
 
@@ -59,4 +62,14 @@
       return true;
     },
   };
+
+  // Autoplay: Bandcamp's feed just stops at the end of a track (and drops
+  // .playing), so move on to the next item; current() falls back to lastItem.
+  window.__fixBc.onChange((el) => {
+    if (el.__fixBcAutoplay) return;
+    el.__fixBcAutoplay = true;
+    el.addEventListener("ended", () => {
+      if (el === window.__fixBc.media) window.__fixBc.feed.skip(1, { scroll: false });
+    });
+  });
 })();

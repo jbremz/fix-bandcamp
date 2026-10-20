@@ -6,6 +6,7 @@ A small Chromium extension (Arc, Chrome, etc.) that augments Bandcamp.
 
 - **Feed player bar**: the feed has no bottom player, so this adds one styled like Bandcamp's own collection-page player: artwork, title, play/pause, a seekable progress bar (click or drag; arrow keys step ±5s when focused), and previous/next buttons.
   Previous/next step through the playable posts in the feed in page order, staying within the list you're in (the main feed or a sidebar grid); they grey out at either end.
+  When a track finishes, the next post starts automatically (Bandcamp's feed otherwise just stops). Album pages already do this natively.
   Clicking the artwork/title scrolls back to the playing item.
   It reads position from the page's actual `<audio>` element (hooking `HTMLMediaElement.play`), and play/pause goes through Bandcamp's own item button so their player state stays in sync.
 
