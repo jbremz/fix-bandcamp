@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="fixbc-progress-transport">
-          <div class="fixbc-playpause" role="button" tabindex="0" aria-label="Play/pause">
+          <div class="fixbc-playpause" role="button" tabindex="0" aria-label="Play/pause" title="Play/pause (K)">
             <div class="fixbc-play"></div>
             <div class="fixbc-pause"></div>
             <div class="fixbc-busy"></div>
@@ -63,7 +63,7 @@
               <div class="fixbc-title"></div>
               <div class="fixbc-pos-dur"><span class="fixbc-pos">00:00</span> / <span class="fixbc-dur">00:00</span></div>
             </div>
-            <div class="fixbc-progress-bar" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0">
+            <div class="fixbc-progress-bar" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" title="Seek (0–9 jump to 0%–90%)">
               <div class="fixbc-progress"></div>
               <div class="fixbc-buffer"></div>
               <div class="fixbc-progress-bg"></div>
@@ -71,11 +71,11 @@
             </div>
           </div>
           <div class="fixbc-transport">
-            <div class="fixbc-icon fixbc-prev" role="button" tabindex="0" aria-label="Previous track"></div>
-            <div class="fixbc-icon fixbc-next" role="button" tabindex="0" aria-label="Next track"></div>
+            <div class="fixbc-icon fixbc-prev" role="button" tabindex="0" aria-label="Previous track" title="Previous track (Shift+P)"></div>
+            <div class="fixbc-icon fixbc-next" role="button" tabindex="0" aria-label="Next track" title="Next track (Shift+N)"></div>
           </div>
         </div>
-        <div class="fixbc-controls-extra"></div>
+        <div class="fixbc-controls-extra"><a href="#" class="fixbc-shortcuts-hint">keyboard shortcuts <kbd>?</kbd></a></div>
       </div>`;
     document.body.appendChild(root);
 
@@ -120,6 +120,12 @@
     };
     onActivate(ui.prev, () => skip(-1));
     onActivate(ui.next, () => skip(1));
+
+    // Opens legend.js's panel.
+    $(".fixbc-shortcuts-hint").addEventListener("click", (e) => {
+      e.preventDefault();
+      document.dispatchEvent(new CustomEvent("fixbc-shortcuts"));
+    });
 
     ui.nowPlaying.addEventListener("click", () => {
       playingItem()?.scrollIntoView({ behavior: "smooth", block: "center" });

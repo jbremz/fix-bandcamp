@@ -2,6 +2,7 @@
 //   K                  play / pause
 //   Shift+N / Shift+P  next / previous track
 //   0-9                jump to 0%-90% of the current track
+//   ?                  show/hide the shortcuts legend (legend.js)
 // On release pages (album/track) these drive Bandcamp's own player
 // (window.gplaylist). On the feed they use feed-nav.js and the <audio>
 // element tracked by media.js.
@@ -23,7 +24,10 @@
     if (isTyping(e.composedPath()[0])) return;
 
     let handled = false;
-    if (!e.shiftKey && e.code === "KeyK") {
+    if (e.key === "?") {
+      handled = hasPlayer();
+      if (handled) document.dispatchEvent(new CustomEvent("fixbc-shortcuts"));
+    } else if (!e.shiftKey && e.code === "KeyK") {
       handled = playPause();
     } else if (e.shiftKey && (e.code === "KeyN" || e.code === "KeyP")) {
       handled = skip(e.code === "KeyN" ? 1 : -1);
@@ -37,6 +41,8 @@
   // ---- release pages: Bandcamp's own playlist player ----
 
   const releasePlayer = () => (!isFeed && window.gplaylist?.next_track ? window.gplaylist : null);
+  // Pages where the shortcuts do anything (so "?" is left alone elsewhere).
+  const hasPlayer = () => isFeed || !!releasePlayer();
 
   function playPause() {
     const gp = releasePlayer();

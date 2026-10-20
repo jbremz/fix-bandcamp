@@ -20,7 +20,8 @@
     },
     {
       "matches": ["https://*.bandcamp.com/*"],
-      "js": ["src/keys.js"],
+      "js": ["src/keys.js", "src/legend.js"],
+      "css": ["src/legend.css"],
       "run_at": "document_idle",
       "world": "MAIN"
     }

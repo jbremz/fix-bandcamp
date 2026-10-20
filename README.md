@@ -20,6 +20,7 @@ A small Chromium extension (Arc, Chrome, etc.) that augments Bandcamp.
   - `K`: play / pause. On the feed with nothing played yet, starts the first post.
   - `Shift+N` / `Shift+P`: next / previous track. On album pages this drives Bandcamp's own player (`gplaylist`); on the feed it plays the next/previous item in the same list (main feed or a sidebar grid), starting from the top of the feed if nothing's playing.
   - `0`–`9`: jump to 0%–90% of the current track. On a release page with nothing playing, it starts playback and then jumps.
+  - `?`: show / hide a shortcuts legend. There's also a "keyboard shortcuts" link in the feed player bar and under Bandcamp's player on release pages, and the player buttons' tooltips show their shortcut.
   - Ignored while typing in a text field (including the header search, which lives in shadow DOM) or with Cmd/Ctrl/Alt held.
 
 ## Install (Arc / Chrome)
