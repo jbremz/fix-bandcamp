@@ -169,9 +169,10 @@
 
   const canSeek = () => media && isFinite(media.duration) && media.duration > 0;
 
-  // Bandcamp marks the playing feed item with .playing.
+  // The feed item that's playing (feed-nav.js knows which copy the user
+  // started when a release appears in both the feed and the sidebar).
   function playingItem() {
-    return document.querySelector(".collection-item-container.playing");
+    return window.__fixBc.feed?.current() || document.querySelector(".collection-item-container.playing");
   }
 
   // Sidebar "new releases" carry their metadata as JSON in data-item-json;
@@ -199,7 +200,6 @@
 
   let lastItem = null;
   function renderNowPlaying() {
-    // Keep showing the last item while paused (Bandcamp drops .playing).
     const item = playingItem();
     if (!item || item === lastItem) return;
     lastItem = item;

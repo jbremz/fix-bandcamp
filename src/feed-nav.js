@@ -7,10 +7,16 @@
 (() => {
   if (!window.__fixBc || window.__fixBc.feed) return;
 
+  // The item the user actually started. We can't just look for .playing:
+  // the same release can appear in both the main feed and the sidebar, and
+  // Bandcamp marks every copy as playing.
   let lastItem = null;
   document.addEventListener(
-    "play",
-    () => setTimeout(() => (lastItem = document.querySelector(".collection-item-container.playing") || lastItem), 0),
+    "click",
+    (e) => {
+      const item = e.target.closest?.(".track_play_auxiliary")?.closest(".collection-item-container");
+      if (item) lastItem = item;
+    },
     true,
   );
 
@@ -22,8 +28,10 @@
   }
 
   function current() {
-    const item = document.querySelector(".collection-item-container.playing") || lastItem;
-    return item?.isConnected ? item : null;
+    const playing = [...document.querySelectorAll(".collection-item-container.playing")];
+    // Bandcamp drops .playing when paused or finished, so keep lastItem then.
+    if (lastItem?.isConnected && (!playing.length || playing.includes(lastItem))) return lastItem;
+    return playing[0] || null;
   }
 
   // Neighbour of the current item in direction dir (+1/-1), or the first
